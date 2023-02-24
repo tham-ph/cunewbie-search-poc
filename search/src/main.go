@@ -1,33 +1,31 @@
 package main
 
 import (
-	"context"
-	"github.com/elastic/go-elasticsearch/v8/esapi"
+	"github.com/elastic/go-elasticsearch/v8/esutil"
 	"github.com/tham-ph/cunewbie-search-poc/search/src/database"
 	"log"
-	"strings"
 )
 
 func main() {
 	es := database.ConnectElasticSearch()
 
-	//res, err := es.Create("jobs", "2", esutil.NewJSONReader(`{"name": "test4324", "what": "Gi432423"}`))
-	//res, err := es.Index(
-	//	"test",                                  // Index name
-	//	strings.NewReader(`{"title" : "Test"}`), // Document body
-	//	es.Index.WithDocumentID("1"),            // Document ID
-	//	es.Index.WithRefresh("true"),            // Refresh
-	//)
-
-	req := esapi.IndexRequest{
-		Index:      "students",
-		Body:       strings.NewReader(`{"name": "Poom5", "age": 32}`),
-		DocumentID: "4",
-	}
-	res, err := req.Do(context.Background(), es)
+	res, err := es.Create("students", "14", esutil.NewJSONReader(map[string]interface{}{"name": "Poom haha", "age": 33}))
+	res, err = es.Create("students", "13", esutil.NewJSONReader(map[string]interface{}{"name": "Poom zaza", "age": 33}))
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	log.Println(res)
+
+	query := map[string]interface{}{
+		"query": map[string]interface{}{
+			"match": map[string]interface{}{
+				"message": map[string]interface{}{
+					"query": "Poom",
+				},
+			},
+		},
+	}
+	res, err = es.Search(es.Search.WithIndex("students"), es.Search.WithBody(esutil.NewJSONReader(query)))
 	log.Println(res)
 }

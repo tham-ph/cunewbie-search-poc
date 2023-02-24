@@ -1,17 +1,19 @@
 version: "3.9"
 
 services:
-
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.6.2
     container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.6.2
     volumes:
+      - certs:/usr/share/elasticsearch/config/certs
       - elasticsearch_data:/usr/share/elasticsearch/data
     ports:
-      - "9200:9200"
+      - 9200:9200
     environment:
       - discovery.type=single-node
-      - xpack.security.enabled=false
+      - ELASTIC_PASSWORD=123456
 volumes:
+  certs:
+    driver: local
   elasticsearch_data:
     driver: local

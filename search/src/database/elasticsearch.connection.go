@@ -5,15 +5,14 @@ import (
 )
 
 func ConnectElasticSearch() *elasticsearch.Client {
-	//cfg := elasticsearch.Config{
-	//	Addresses: []string{
-	//		"https://localhost:9200",
-	//	},
-	//	Username: "elastic",
-	//	Password: "123456",
-	//}
-	//es, err := elasticsearch.NewClient(cfg)
-	es, err := elasticsearch.NewDefaultClient()
+	cfg := elasticsearch.Config{
+		Addresses: []string{
+			"http://localhost:9200",
+		},
+		Username: "elastic",
+		Password: "123456",
+	}
+	es, err := elasticsearch.NewClient(cfg)
 	if err != nil {
 		panic(err)
 	}
