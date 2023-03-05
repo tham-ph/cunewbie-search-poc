@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package search;
+
+option go_package = "src/pb/;pb";
+
+service SearchService {
+  rpc SayHello (SayHelloRequest) returns (SayHelloResponse) {} // unary means client sends one message and server sends one message
+
+  rpc SayHelloClientStream (stream SayHelloRequest) returns (SayHelloResponse) {} // client stream means client sends multiple messages and server sends one message
+
+  rpc SayHelloServerStream (SayHelloRequest) returns (stream SayHelloResponse) {} // server stream means client sends one message and server sends multiple messages
+
+  rpc SayHelloBidirectionalStream (stream SayHelloRequest) returns (stream SayHelloResponse) {} // bidirectional stream means client sends multiple messages and server sends multiple messages
+}
+
+message SayHelloRequest {}
+
+message SayHelloResponse {
+  string name = 1;
+  int32 number = 2;
+}
