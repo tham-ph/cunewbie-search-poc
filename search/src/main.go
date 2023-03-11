@@ -23,7 +23,7 @@ func (s *SearchServiceServer) SayHello(ctx context.Context, req *pb.SayHelloRequ
 }
 
 func main() {
-	lis, err := net.Listen("tcp", "localhost:8080")
+	lis, err := net.Listen("tcp", ":8080")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -33,27 +33,26 @@ func main() {
 
 	es := database.ConnectElasticSearch()
 
-	res, err := es.Create("students", "14", esutil.NewJSONReader(map[string]interface{}{"name": "Poom haha", "age": 33}))
-	res, err = es.Create("students", "13", esutil.NewJSONReader(map[string]interface{}{"name": "Poom zaza", "age": 33}))
+	res, err := es.Create("students", "21", esutil.NewJSONReader(map[string]interface{}{"name": "Poom", "age": 33}))
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	log.Println(res)
 
+	// query for search
 	query := map[string]interface{}{
 		"query": map[string]interface{}{
 			"match": map[string]interface{}{
-				"message": map[string]interface{}{
-					"query": "Poom",
-				},
+				"name": "Poom",
 			},
 		},
 	}
+
 	res, err = es.Search(es.Search.WithIndex("students"), es.Search.WithBody(esutil.NewJSONReader(query)))
 	log.Println(res)
 
-	fmt.Println("server started at :8080")
+	fmt.Println("server started listening on :8080")
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatal(err)
 	}

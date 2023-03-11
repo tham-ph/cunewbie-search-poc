@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  client:
+    container_name: client
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    restart: on-failure
+    networks:
+      - cunewbie-search-poc-network
+    volumes:
+      - ./src:/app/src
+
+
+networks:
+  cunewbie-search-poc-network:
+    name: cunewbie-search-poc-network
