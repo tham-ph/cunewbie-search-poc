@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"github.com/tham-ph/cunewbie-search-poc/service1/src/pb"
+	"github.com/tham-ph/cunewbie-search-poc/gateway-service/src/pb"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"log"
