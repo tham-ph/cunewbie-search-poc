@@ -1,8 +1,8 @@
 version: "3.9"
 
 services:
-  server:
-    container_name: server
+  search:
+    container_name: search
     build:
       context: .
       dockerfile: Dockerfile-dev

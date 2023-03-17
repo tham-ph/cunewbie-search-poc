@@ -21,7 +21,7 @@ func callSayHello(client pb.SearchServiceClient) {
 	log.Println(res)
 }
 func main() {
-	conn, err := grpc.Dial("dns:///server:8080", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.Dial("dns:///search:8080", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatal(err)
 	}
