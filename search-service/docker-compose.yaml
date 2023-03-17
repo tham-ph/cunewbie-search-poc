@@ -24,8 +24,6 @@ services:
       - ELASTIC_PASSWORD=123456
     ports:
       - 9200:9200
-    networks:
-      - cunewbie-search-poc-network
 
 volumes:
   certs:
