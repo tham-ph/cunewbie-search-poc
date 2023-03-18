@@ -13,6 +13,10 @@ services:
       - cunewbie-search-poc-network
     volumes:
       - ./src:/app/src
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+
   elasticsearch:
     container_name: elasticsearch
     image: docker.elastic.co/elasticsearch/elasticsearch:8.6.2
@@ -26,6 +30,15 @@ services:
       - 9200:9200
     networks:
       - cunewbie-search-poc-network
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -s --cacert config/certs/ca/ca.crt http://localhost:9200 | grep -q 'missing authentication credentials'",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 5
 
 volumes:
   certs:
