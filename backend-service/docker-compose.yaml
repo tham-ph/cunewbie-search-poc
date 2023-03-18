@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  backend:
+    container_name: backend
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    restart: on-failure
+    networks:
+      - cunewbie-search-poc-network
+    volumes:
+      - ./src:/app/src
+
+  mysql:
+    container_name: mysql
+    image: mysql:8.0.32-oracle
+    restart: on-failure
+    environment:
+      MYSQL_DATABASE: cunewbie-search-poc
+      MYSQL_ROOT_PASSWORD: 123456
+    networks:
+      - cunewbie-search-poc-network
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+volumes:
+  mysql_data:
+
+networks:
+  cunewbie-search-poc-network:
+    name: cunewbie-search-poc-network
