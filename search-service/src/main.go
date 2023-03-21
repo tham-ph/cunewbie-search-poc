@@ -74,17 +74,17 @@ func main() {
 		log.Fatal(err)
 	}
 
-	var forever chan struct{}
-	go func() {
-		for message := range messages {
-			log.Println(string(message.Body))
-		}
-	}()
-
 	go func() {
 		fmt.Println("server started listening on :3001")
 		if err := grpcServer.Serve(lis); err != nil {
 			log.Fatal(err)
+		}
+	}()
+
+	forever := make(chan bool)
+	go func() {
+		for message := range messages {
+			log.Println(string(message.Body))
 		}
 	}()
 	<-forever
