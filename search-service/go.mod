@@ -4,6 +4,7 @@ go 1.18
 
 require (
 	github.com/elastic/go-elasticsearch/v8 v8.6.0
+	github.com/rabbitmq/amqp091-go v1.7.0
 	google.golang.org/grpc v1.53.0
 	google.golang.org/protobuf v1.30.0
 )
