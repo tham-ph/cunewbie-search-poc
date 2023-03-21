@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.9.29-management-alpine
+    restart: on-failure
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+      - rabbitmq_log:/var/log/rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - cunewbie-search-poc-network
+
+volumes:
+  rabbitmq_data:
+  rabbitmq_log:
+
+networks:
+  cunewbie-search-poc-network:
+    name: cunewbie-search-poc-network
