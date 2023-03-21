@@ -1,16 +1,20 @@
 version: "3.9"
 
 services:
-  gateway:
-    container_name: gateway
-    build:
-      context: .
-      dockerfile: Dockerfile-dev
-    restart: on-failure
-    networks:
-      - cunewbie-search-poc-network
-    volumes:
-      - ./src:/app/src
+  dummy:
+    container_name: dummy
+#  gateway:
+#    container_name: gateway
+#    build:
+#      context: .
+#      dockerfile: Dockerfile-dev
+#    restart: on-failure
+#    ports:
+#      - "3000:3000"
+#    networks:
+#      - cunewbie-search-poc-network
+#    volumes:
+#      - ./src:/app/src
 
 
 networks:

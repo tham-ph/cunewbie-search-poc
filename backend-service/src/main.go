@@ -61,7 +61,7 @@ func main() {
 	defer cancel()
 	err = rabbitmqChannel.PublishWithContext(ctx, "", q.Name, false, false, amqp.Publishing{
 		ContentType: "text/plain",
-		Body:        []byte("Hello World again3! from queue1"),
+		Body:        []byte("Hello World again6! from queue1"),
 	})
 	if err != nil {
 		log.Fatal(err)

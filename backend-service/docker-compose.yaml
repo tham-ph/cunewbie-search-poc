@@ -1,19 +1,19 @@
 version: "3.9"
 
 services:
-  backend:
-    container_name: backend
-    build:
-      context: .
-      dockerfile: Dockerfile-dev
-    restart: on-failure
-    networks:
-      - cunewbie-search-poc-network
-    volumes:
-      - ./src:/app/src
-    depends_on:
-      mysql:
-        condition: service_healthy
+#  backend:
+#    container_name: backend
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    restart: on-failure
+#    networks:
+#      - cunewbie-search-poc-network
+#    volumes:
+#      - ./src:/app/src
+#    depends_on:
+#      mysql:
+#        condition: service_healthy
 
   mysql:
     container_name: mysql

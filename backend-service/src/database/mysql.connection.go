@@ -7,7 +7,7 @@ import (
 )
 
 func ConnectDatabase() (db *gorm.DB, err error) {
-	dsn := fmt.Sprintf("root:123456@tcp(mysql:3306)/cunewbie-search-poc?charset=utf8&parseTime=True")
+	dsn := fmt.Sprintf("root:123456@tcp(localhost:3306)/cunewbie-search-poc?charset=utf8&parseTime=True")
 
 	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {

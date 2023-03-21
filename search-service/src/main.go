@@ -23,7 +23,7 @@ func (s *SearchServiceServer) SayHello(ctx context.Context, req *pb.SayHelloRequ
 }
 
 func main() {
-	lis, err := net.Listen("tcp", ":8080")
+	lis, err := net.Listen("tcp", ":3001")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -82,11 +82,10 @@ func main() {
 	}()
 
 	go func() {
-		fmt.Println("server started listening on :8080")
+		fmt.Println("server started listening on :3001")
 		if err := grpcServer.Serve(lis); err != nil {
 			log.Fatal(err)
 		}
 	}()
-
 	<-forever
 }

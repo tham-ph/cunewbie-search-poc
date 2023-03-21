@@ -7,7 +7,7 @@ import (
 func ConnectElasticSearch() *elasticsearch.Client {
 	cfg := elasticsearch.Config{
 		Addresses: []string{
-			"http://elasticsearch:9200",
+			"http://localhost:9200",
 		},
 		Username: "elastic",
 		Password: "123456",
