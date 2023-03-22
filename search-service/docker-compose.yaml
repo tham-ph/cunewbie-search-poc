@@ -23,12 +23,11 @@ services:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.6.2
     volumes:
       - elasticsearch_data:/usr/share/elasticsearch/data
-      - certs:/usr/share/elasticsearch/config/certs
     environment:
       - discovery.type=single-node
       - ELASTIC_PASSWORD=123456
     ports:
-      - 9200:9200
+      - "9200:9200"
     networks:
       - cunewbie-search-poc-network
     healthcheck:
@@ -42,7 +41,6 @@ services:
       retries: 5
 
 volumes:
-  certs:
   elasticsearch_data:
 
 networks:
