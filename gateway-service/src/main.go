@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"github.com/gofiber/fiber/v2"
 	"github.com/tham-ph/cunewbie-search-poc/gateway-service/src/pb"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -21,7 +22,7 @@ func callSayHello(client pb.SearchServiceClient) {
 	log.Println(res)
 }
 func main() {
-	conn, err := grpc.Dial("dns:///search:8080", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.Dial("localhost:3001", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -31,4 +32,9 @@ func main() {
 
 	callSayHello(client)
 
+	app := fiber.New()
+
+	app.Post("/add-book", func(c *fiber.Ctx) error {
+		return c.SendString("Hello, World 👋!")
+	})
 }
