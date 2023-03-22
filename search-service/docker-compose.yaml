@@ -21,6 +21,7 @@ services:
   elasticsearch:
     container_name: elasticsearch
     image: docker.elastic.co/elasticsearch/elasticsearch:8.6.2
+    restart: unless-stopped
     volumes:
       - elasticsearch_data:/usr/share/elasticsearch/data
     environment:
