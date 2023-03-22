@@ -34,14 +34,14 @@ func main() {
 
 	db.AutoMigrate(&Book{})
 
-	result := db.Create(&Book{Title: "Poom Book 3", Author: "J.R.R. Tolkien", Rating: 4, Voters: 100, Price: 10.99, Currency: "USD", Description: "A great book", Publisher: "Allen & Unwin", PageCount: 295, Genres: "Fantasy", ISBN: "9780241956400", Language: "English", PublishedDate: "21 September 1937"})
-	log.Println(result)
+	//db.Create(&Book{Title: "Poom Book 3", Author: "J.R.R. Tolkien", Rating: 4, Voters: 100, Price: 10.99, Currency: "USD", Description: "A great book", Publisher: "Allen & Unwin", PageCount: 295, Genres: "Fantasy", ISBN: "9780241956400", Language: "English", PublishedDate: "21 September 1937"})
 
 	res := Book{}
-	db.Model(&Book{}).Where("title = ?", "Poom Book 3").First(&res)
-	//res.Author = "jfak;sdjfkasldjf;akdl"
-	//db.Save(&res)
-	log.Println(res)
+	db.Model(&Book{}).Where("title = ?", "Poom Book").First(&res)
+	res.Title = "Poom Book 99"
+	db.Save(&res)
+
+	db.Delete(&Book{}, 19)
 
 	rabbitmqConnection, err := database.ConnectRabbitMQ()
 	if err != nil {
