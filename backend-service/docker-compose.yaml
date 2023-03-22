@@ -35,20 +35,23 @@ services:
       retries: 10
 
   logstash:
+    build:
+      context: .
+      dockerfile: config/logstash/Dockerfile-logstash
     container_name: logstash
-    image: logstash:8.6.2
     restart: unless-stopped
     environment:
       - LOGSTASH_JAVA_OPTS=-Xmx512m -Xms512m
     volumes:
-      - ./config/logstash:/usr/share/logstash/config
-      - ./config/logstash:/usr/share/logstash/pipeline
+      - ./config/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
       - logstash_data:/usr/share/logstash/data
     ports:
       - "5000:5000"
     depends_on:
       mysql:
         condition: service_healthy
+    networks:
+      - cunewbie-search-poc-network
 
 volumes:
   mysql_data:
