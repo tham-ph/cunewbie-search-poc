@@ -1,24 +1,24 @@
 version: "3.9"
 
 services:
-#  backend:
-#    container_name: backend
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    restart: on-failure
-#    networks:
-#      - cunewbie-search-poc-network
-#    volumes:
-#      - ./src:/app/src
-#    depends_on:
-#      mysql:
-#        condition: service_healthy
+  #  backend:
+  #    container_name: backend
+  #    build:
+  #      context: .
+  #      dockerfile: Dockerfile
+  #    restart: on-failure
+  #    networks:
+  #      - cunewbie-search-poc-network
+  #    volumes:
+  #      - ./src:/app/src
+  #    depends_on:
+  #      mysql:
+  #        condition: service_healthy
 
   mysql:
     container_name: mysql
     image: mysql:8.0.32-oracle
-    restart: on-failure
+    restart: unless-stopped
     environment:
       MYSQL_DATABASE: cunewbie-search-poc
       MYSQL_ROOT_PASSWORD: 123456
@@ -34,8 +34,25 @@ services:
       timeout: 5s
       retries: 10
 
+  logstash:
+    container_name: logstash
+    image: logstash:8.6.2
+    restart: unless-stopped
+    environment:
+      - LOGSTASH_JAVA_OPTS=-Xmx512m -Xms512m
+    volumes:
+      - ./config/logstash:/usr/share/logstash/config
+      - ./config/logstash:/usr/share/logstash/pipeline
+      - logstash_data:/usr/share/logstash/data
+    ports:
+      - "5000:5000"
+    depends_on:
+      mysql:
+        condition: service_healthy
+
 volumes:
   mysql_data:
+  logstash_data:
 
 networks:
   cunewbie-search-poc-network:
