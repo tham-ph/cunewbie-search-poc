@@ -33,7 +33,7 @@ func main() {
 
 	es := database.ConnectElasticSearch()
 
-	res, err := es.Create("students", "21", esutil.NewJSONReader(map[string]interface{}{"name": "Poom", "age": 33}))
+	res, err := es.Create("students", "1", esutil.NewJSONReader(map[string]interface{}{"name": "Poom", "age": 33}))
 	if err != nil {
 		log.Fatal(err)
 	}
