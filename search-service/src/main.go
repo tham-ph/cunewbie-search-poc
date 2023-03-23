@@ -52,63 +52,64 @@ func main() {
 	res, err = es.Search(es.Search.WithIndex("students"), es.Search.WithBody(esutil.NewJSONReader(query)))
 	log.Println(res)
 
-	// rabbitmq
-	rabbitmqConnection, err := database.ConnectRabbitMQ()
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer rabbitmqConnection.Close()
+	//// rabbitmq
+	//rabbitmqConnection, err := database.ConnectRabbitMQ()
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	//defer rabbitmqConnection.Close()
+	//
+	//rabbitmqChannel, err := rabbitmqConnection.Channel()
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	//
+	//err = rabbitmqChannel.ExchangeDeclare(
+	//	"exchange1",
+	//	"direct",
+	//	true,
+	//	false,
+	//	false,
+	//	false,
+	//	nil)
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	//
+	//q, err := rabbitmqChannel.QueueDeclare(
+	//	"",
+	//	true,
+	//	false,
+	//	false,
+	//	false,
+	//	nil)
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	//
+	//err = rabbitmqChannel.QueueBind(
+	//	q.Name,
+	//	"sync_mysql_es",
+	//	"exchange1",
+	//	false,
+	//	nil)
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	//
+	//messages, err := rabbitmqChannel.Consume(
+	//	q.Name,
+	//	"",
+	//	true,
+	//	false,
+	//	false,
+	//	false,
+	//	nil)
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
 
-	rabbitmqChannel, err := rabbitmqConnection.Channel()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = rabbitmqChannel.ExchangeDeclare(
-		"exchange1",
-		"direct",
-		true,
-		false,
-		false,
-		false,
-		nil)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	q, err := rabbitmqChannel.QueueDeclare(
-		"",
-		true,
-		false,
-		false,
-		false,
-		nil)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = rabbitmqChannel.QueueBind(
-		q.Name,
-		"sync_mysql_es",
-		"exchange1",
-		false,
-		nil)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	messages, err := rabbitmqChannel.Consume(
-		q.Name,
-		"",
-		true,
-		false,
-		false,
-		false,
-		nil)
-	if err != nil {
-		log.Fatal(err)
-	}
-
+	forever := make(chan bool)
 	go func() {
 		fmt.Println("server started listening on :3001")
 		if err := grpcServer.Serve(lis); err != nil {
@@ -116,11 +117,10 @@ func main() {
 		}
 	}()
 
-	forever := make(chan bool)
-	go func() {
-		for message := range messages {
-			log.Println(string(message.Body))
-		}
-	}()
+	//go func() {
+	//	for message := range messages {
+	//		log.Println(string(message.Body))
+	//	}
+	//}()
 	<-forever
 }
