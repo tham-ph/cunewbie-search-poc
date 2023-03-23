@@ -64,12 +64,47 @@ func main() {
 		log.Fatal(err)
 	}
 
-	q, err := rabbitmqChannel.QueueDeclare("queue1", false, false, false, false, nil)
+	err = rabbitmqChannel.ExchangeDeclare(
+		"exchange1",
+		"direct",
+		false,
+		false,
+		false,
+		false,
+		nil)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	messages, err := rabbitmqChannel.Consume(q.Name, "", true, false, false, false, nil)
+	q, err := rabbitmqChannel.QueueDeclare(
+		"",
+		false,
+		false,
+		false,
+		false,
+		nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = rabbitmqChannel.QueueBind(
+		q.Name,
+		"sync_mysql_es",
+		"exchange1",
+		false,
+		nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	messages, err := rabbitmqChannel.Consume(
+		q.Name,
+		"",
+		true,
+		false,
+		false,
+		false,
+		nil)
 	if err != nil {
 		log.Fatal(err)
 	}
