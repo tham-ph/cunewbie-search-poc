@@ -31,6 +31,10 @@ services:
       - "9200:9200"
     networks:
       - cunewbie-search-poc-network
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
     healthcheck:
       test:
         [
@@ -41,8 +45,26 @@ services:
       timeout: 10s
       retries: 5
 
+  logstash:
+    image: logstash:8.6.2
+    container_name: logstash-elasticsearch
+    restart: unless-stopped
+    environment:
+      - LOGSTASH_JAVA_OPTS=-Xmx512m -Xms512m
+    volumes:
+      - ./config/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - logstash_data:/usr/share/logstash/data
+    ports:
+      - "5001:5000"
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - cunewbie-search-poc-network
+
 volumes:
   elasticsearch_data:
+  logstash_data:
 
 networks:
   cunewbie-search-poc-network:

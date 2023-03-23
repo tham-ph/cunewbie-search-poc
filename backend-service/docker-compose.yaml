@@ -38,7 +38,7 @@ services:
     build:
         context: ./config/logstash
         dockerfile: Dockerfile-logstash
-    container_name: logstash
+    container_name: logstash-mysql
     restart: unless-stopped
     environment:
       - LOGSTASH_JAVA_OPTS=-Xmx512m -Xms512m
