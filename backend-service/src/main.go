@@ -58,18 +58,31 @@ func main() {
 	}
 	defer rabbitmqChannel.Close()
 
-	q, err := rabbitmqChannel.QueueDeclare("queue1", false, false, false, false, nil)
+	err = rabbitmqChannel.ExchangeDeclare(
+		"exchange1",
+		"direct",
+		false,
+		false,
+		false,
+		false,
+		nil)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
-	err = rabbitmqChannel.PublishWithContext(ctx, "", q.Name, false, false, amqp.Publishing{
-		ContentType: "text/plain",
-		Body:        []byte("Hello World again6! from queue1"),
-	})
+	err = rabbitmqChannel.PublishWithContext(ctx,
+		"exchange1",
+		"sync_mysql_es",
+		false,
+		false,
+		amqp.Publishing{
+			ContentType: "text/plain",
+			Body:        []byte("Hello World! with direct exchange"),
+		})
 	if err != nil {
 		log.Fatal(err)
 	}
+
 }
