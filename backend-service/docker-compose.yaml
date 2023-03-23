@@ -36,8 +36,8 @@ services:
 
   logstash:
     build:
-      context: .
-      dockerfile: config/logstash/Dockerfile-logstash
+        context: ./config/logstash
+        dockerfile: Dockerfile-logstash
     container_name: logstash
     restart: unless-stopped
     environment:

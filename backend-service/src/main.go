@@ -44,7 +44,7 @@ func main() {
 	//res.Title = "Poom Book 99"
 	//db.Save(&res)
 
-	db.Delete(&Book{}, 36)
+	db.Delete(&Book{}, 38)
 
 	rabbitmqConnection, err := database.ConnectRabbitMQ()
 	if err != nil {
@@ -61,7 +61,7 @@ func main() {
 	err = rabbitmqChannel.ExchangeDeclare(
 		"exchange1",
 		"direct",
-		false,
+		true,
 		false,
 		false,
 		false,
