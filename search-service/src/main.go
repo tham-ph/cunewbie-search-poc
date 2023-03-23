@@ -67,7 +67,7 @@ func main() {
 	err = rabbitmqChannel.ExchangeDeclare(
 		"exchange1",
 		"direct",
-		false,
+		true,
 		false,
 		false,
 		false,
@@ -78,7 +78,7 @@ func main() {
 
 	q, err := rabbitmqChannel.QueueDeclare(
 		"",
-		false,
+		true,
 		false,
 		false,
 		false,
