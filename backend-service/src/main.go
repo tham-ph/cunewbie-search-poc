@@ -32,7 +32,10 @@ func main() {
 		log.Fatal(err)
 	}
 
-	db.AutoMigrate(&Book{})
+	err = db.AutoMigrate(&Book{})
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	//db.Create(&Book{Title: "P123", Author: "J.R.R. Tolkien", Rating: 4, Voters: 100, Price: 10.99, Currency: "USD", Description: "A great book", Publisher: "Allen & Unwin", PageCount: 295, Genres: "Fantasy", ISBN: "9780241956400", Language: "English", PublishedDate: "21 September 1937"})
 
